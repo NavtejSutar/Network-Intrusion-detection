@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Service;
 
 import com.netguard.networkcopilot.Entity.Flow;
@@ -32,6 +33,7 @@ public class FlowService {
         return flowRepo.findAll();
     }
 
+    @Tool(description="Get Flow By id. It will give the entire flow in json format by just giving the id. If flow is not found it will gibve \"Flow not found: \" + id")
     public Flow getById(Integer id) {
         return flowRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Flow not found: " + id));
@@ -41,6 +43,7 @@ public class FlowService {
         return flowRepo.findLatest(limit);
     }
 
+    @Tool(description="it will give all the latest anomalies based on the limitof flows you give you give")
     public List<Flow> getLatestAnomalies(int limit) {
         return flowRepo.findLatestAnomalies(limit);
     }
@@ -59,6 +62,7 @@ public class FlowService {
         return flowRepo.findByTimestampAfterOrderByTimestampAsc(since);
     }
 
+    @Tool(description="It gives the full summary of all the flows in the last 60 minutes")
     public Map<String, Object> getSummary() {
         LocalDateTime since = LocalDateTime.now().minusMinutes(60);
         List<Flow> recent = flowRepo.findByTimestampAfterOrderByTimestampAsc(since);
@@ -66,7 +70,7 @@ public class FlowService {
         long total   = recent.size();
         long attacks = recent.stream()
                 .filter(f -> !"BENIGN".equals(f.getPrediction()))
-                .count();
+                .count(); 
         long benign  = total - attacks;
 
         double avgAttackConfidence = recent.stream()
