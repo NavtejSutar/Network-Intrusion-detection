@@ -33,19 +33,77 @@ public class FlowService {
         return flowRepo.findAll();
     }
 
-    @Tool(description="Get Flow By id. It will give the entire flow in json format by just giving the id. If flow is not found it will gibve \"Flow not found: \" + id")
+    private com.netguard.networkcopilot.DTO.FlowSummaryDTO toSummaryDto(Flow f) {
+        return new com.netguard.networkcopilot.DTO.FlowSummaryDTO(
+                f.getId(),
+                f.getTimestamp() != null ? f.getTimestamp().toString() : null,
+                f.getPrediction(),
+                f.getConfidence(),
+                f.getSrcIp(),
+                f.getDstIp(),
+                f.getSrcPort(),
+                f.getDstPort(),
+                f.getProtocol(),
+                f.getDuration(),
+                f.getTotalPackets(),
+                f.getTotalBytes()
+        );
+    }
+
+    public List<Flow> getLatest(int limit) {
+        return flowRepo.findLatest(limit > 0 ? limit : 20);
+    }
+
+    public List<Flow> getLatestAnomalies(int limit) {
+        return flowRepo.findLatestAnomalies(limit > 0 ? limit : 20);
+    }
+
+    public List<Flow> getFlowsLastMinutes(int minutes) {
+        int mins = minutes > 0 ? minutes : 10;
+        LocalDateTime since = LocalDateTime.now().minusMinutes(mins);
+        return flowRepo.findByTimestampAfterOrderByTimestampAsc(since);
+    }
+
+    @Tool(description="Get Flow By id. It will give the entire flow in json format by just giving the id. If flow is not found it will give Flow not found")
     public Flow getById(Integer id) {
         return flowRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Flow not found: " + id));
     }
 
-    public List<Flow> getLatest(int limit) {
-        return flowRepo.findLatest(limit);
+    @Tool(description="Get latest network flows up to a specified limit count (maximum 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getLatestSummary(int limit) {
+        int max = Math.min(Math.max(limit, 1), 10);
+        return flowRepo.findLatest(max).stream().map(this::toSummaryDto).collect(Collectors.toList());
     }
 
-    @Tool(description="it will give all the latest anomalies based on the limitof flows you give you give")
-    public List<Flow> getLatestAnomalies(int limit) {
-        return flowRepo.findLatestAnomalies(limit);
+    @Tool(description="Get all latest detected anomalies and malicious flows up to a specified limit (maximum 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getLatestAnomaliesSummary(int limit) {
+        int max = Math.min(Math.max(limit, 1), 10);
+        return flowRepo.findLatestAnomalies(max).stream().map(this::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Tool(description="Search network flows associated with a specific IP address (source or destination, maximum 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getFlowsByIp(String ipAddress, int limit) {
+        int max = Math.min(Math.max(limit, 1), 10);
+        return flowRepo.findByIpAddress(ipAddress, max).stream().map(this::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Tool(description="Search network flows by port number (source or destination port, maximum 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getFlowsByPort(int port, int limit) {
+        int max = Math.min(Math.max(limit, 1), 10);
+        return flowRepo.findByPort(port, max).stream().map(this::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Tool(description="Find network flows by attack classification type, such as DDoS, PortScan, Bot, Infiltration (maximum 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getFlowsByAttackType(String attackType, int limit) {
+        int max = Math.min(Math.max(limit, 1), 10);
+        return flowRepo.findByAttackType(attackType, max).stream().map(this::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Tool(description="Find high-confidence anomalies above a minimum confidence percentage threshold (maximum 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getHighConfidenceAnomalies(double minConfidence, int limit) {
+        int max = Math.min(Math.max(limit, 1), 10);
+        return flowRepo.findHighConfidenceAnomalies(minConfidence, max).stream().map(this::toSummaryDto).collect(Collectors.toList());
     }
 
     public List<Flow> getFlowsAfter(LocalDateTime after) {
@@ -57,12 +115,17 @@ public class FlowService {
                 "BENIGN", after);
     }
 
-    public List<Flow> getFlowsLastMinutes(int minutes) {
-        LocalDateTime since = LocalDateTime.now().minusMinutes(minutes);
-        return flowRepo.findByTimestampAfterOrderByTimestampAsc(since);
+    @Tool(description="Get recent network flows recorded within the last specified number of minutes (returns up to 10)")
+    public List<com.netguard.networkcopilot.DTO.FlowSummaryDTO> getRecentFlowsSummary(int minutes) {
+        int mins = Math.min(Math.max(minutes, 1), 60);
+        LocalDateTime since = LocalDateTime.now().minusMinutes(mins);
+        return flowRepo.findByTimestampAfterOrderByTimestampAsc(since).stream()
+                .limit(10)
+                .map(this::toSummaryDto)
+                .collect(Collectors.toList());
     }
 
-    @Tool(description="It gives the full summary of all the flows in the last 60 minutes")
+    @Tool(description="It gives the summary of network flows in the last 60 minutes including total flows, attacks, benign count, attack ratio, health score, and top 5 source IPs")
     public Map<String, Object> getSummary() {
         LocalDateTime since = LocalDateTime.now().minusMinutes(60);
         List<Flow> recent = flowRepo.findByTimestampAfterOrderByTimestampAsc(since);
@@ -90,7 +153,10 @@ public class FlowService {
                 .collect(Collectors.groupingBy(
                         f -> f.getSrcIp() != null ? f.getSrcIp() : "unknown",
                         Collectors.counting()
-                ));
+                )).entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(5)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         double attackRatio = total > 0 ? (double) attacks / total : 0.0;
         int healthScore = (int) Math.max(0, 100 - (attackRatio * 100));
@@ -104,8 +170,7 @@ public class FlowService {
                 "predictionBreakdown", breakdown,
                 "topAttackSrcIps",     topSrcIps,
                 "healthScore",         healthScore,
-                "windowMinutes",       60,
-                "generatedAt",         LocalDateTime.now().toString()
+                "windowMinutes",       60
         );
     }
 

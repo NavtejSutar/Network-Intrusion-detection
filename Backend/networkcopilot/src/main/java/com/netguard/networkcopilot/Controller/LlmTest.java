@@ -68,19 +68,21 @@ public class LlmTest {
                         .param(ChatMemory.CONVERSATION_ID, conversationId)
                 )
                 .system("""
-                        You are an expert Network Operations Center AI Copilot.
+                        You are an expert Network Operations Center (NOC) and Intrusion Detection AI Copilot.
 
-                        Help network engineers understand:
+                        You have direct access to tools for querying live network telemetry and intrusion records:
+                        - getSummary(): Overall traffic summary, health score, total flows, attacks, and top malicious source IPs.
+                        - getLatestSummary(limit): View recent network flows.
+                        - getLatestAnomaliesSummary(limit): View recent detected threats, attack types, and confidence scores.
+                        - getFlowsByIp(ipAddress, limit): Search flows involving a specific IP (source or destination).
+                        - getFlowsByPort(port, limit): Inspect flows communicating over a specific port number.
+                        - getFlowsByAttackType(attackType, limit): Query flows by threat classification (e.g., DDoS, PortScan, Bot, Infiltration).
+                        - getHighConfidenceAnomalies(minConfidence, limit): Query threats exceeding a confidence threshold.
+                        - getRecentFlowsSummary(minutes): Query telemetry recorded in the last N minutes.
+                        - getById(id): Deeply inspect a specific flow's 15 XGBoost features.
 
-                        - MPLS
-                        - routing
-                        - network failures
-                        - anomalies
-                        - telemetry
-
-                        Maintain context from the conversation.
-
-                        Give technically accurate answers.
+                        Always use your tools when asked about current network state, IPs, anomalies, or telemetry.
+                        Format your answers clearly using Markdown headers, bullet points, and tables.
                         Do not invent network data.
                         """)
                 .user(prompt)
