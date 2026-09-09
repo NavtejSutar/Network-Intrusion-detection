@@ -105,21 +105,18 @@ export default function Header({
 
   return (
     <header className="border-b border-slate-800/80 bg-[#090D16]/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
-      <div className="flex items-center gap-4 flex-1 max-w-md">
-        <div className="relative w-full">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search network events, IPs, ports..."
-            className="w-full bg-[#111726] border border-slate-800 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 outline-none focus:border-cyan-500/50"
-          />
+      <div className="flex items-center gap-3 cursor-pointer" onClick={onOpenLanding}>
+        <img src="/logo.png" alt="NetGuard" className="w-9 h-9 object-contain rounded-full shadow-md shadow-orange-500/20" />
+        <div>
+          <span className="font-extrabold text-sm tracking-wide text-white">NetGuard Console</span>
+          <span className="block text-[10px] font-mono text-orange-400">Live Intrusion Telemetry</span>
         </div>
       </div>
 
       <div className="flex items-center flex-wrap gap-3">
         <div className="flex items-center gap-2 bg-[#111726] border border-slate-800 rounded-xl px-3 py-1.5 shadow-inner">
           <div className="flex items-center gap-1.5 text-xs text-slate-300">
-            <Wifi className="w-3.5 h-3.5 text-cyan-400" />
+            <Wifi className="w-3.5 h-3.5 text-orange-400" />
             <span className="font-medium text-slate-400 hidden sm:inline">Adapter:</span>
           </div>
           <select
@@ -158,7 +155,7 @@ export default function Header({
             className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-lg transition-all cursor-pointer shadow-md ${
               status.running
                 ? 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40'
-                : 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-cyan-500/20'
+                : 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black shadow-orange-500/20'
             }`}
           >
             {status.running ? (
@@ -176,7 +173,7 @@ export default function Header({
         </div>
 
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-800 bg-[#111726]">
-          <span className={`w-2 h-2 rounded-full ${status.running ? 'bg-cyan-400 animate-radar' : 'bg-slate-500'}`} />
+          <span className={`w-2 h-2 rounded-full ${status.running ? 'bg-orange-400 animate-radar' : 'bg-slate-500'}`} />
           <span className="text-xs font-mono text-slate-300 truncate max-w-[130px] hidden sm:inline">
             {status.running ? (status.interfaceName || 'Wi-Fi Active') : 'Capture Idle'}
           </span>
@@ -185,14 +182,14 @@ export default function Header({
         <button
           onClick={onRefresh}
           disabled={isRefreshing}
-          className="p-2 rounded-xl bg-[#111726] border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
+          className="p-2 rounded-xl bg-[#111726] border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-orange-400 transition-colors cursor-pointer"
           title="Refresh telemetry"
         >
-          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-cyan-400' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-orange-400' : ''}`} />
         </button>
 
         <div className="flex items-center gap-3 pl-2 border-l border-slate-800">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-bold text-xs text-white shadow-md">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center font-bold text-xs text-black shadow-md">
             N
           </div>
           <div className="hidden lg:block text-left">

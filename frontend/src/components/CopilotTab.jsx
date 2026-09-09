@@ -127,7 +127,7 @@ export default function CopilotTab({ initialPrompt = '' }) {
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs ${
                   isUser
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
                     : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
                 }`}
               >
@@ -137,7 +137,7 @@ export default function CopilotTab({ initialPrompt = '' }) {
               <div
                 className={`p-4 rounded-2xl text-xs leading-relaxed ${
                   isUser
-                    ? 'bg-cyan-500/10 border border-cyan-500/20 text-slate-100 rounded-tr-sm'
+                    ? 'bg-orange-500/10 border border-orange-500/20 text-slate-100 rounded-tr-sm'
                     : 'bg-[#111726] border border-slate-800 text-slate-200 rounded-tl-sm'
                 }`}
               >
@@ -166,14 +166,14 @@ export default function CopilotTab({ initialPrompt = '' }) {
               key={chip}
               onClick={() => handleSend(chip)}
               disabled={isStreaming}
-              className="text-[11px] whitespace-nowrap bg-[#161F33] hover:bg-slate-800 text-slate-300 hover:text-cyan-300 px-3 py-1.5 rounded-xl border border-slate-800 transition-colors shrink-0 disabled:opacity-50"
+              className="text-[11px] whitespace-nowrap bg-[#161F33] hover:bg-slate-800 text-slate-300 hover:text-orange-300 px-3 py-1.5 rounded-xl border border-slate-800 transition-colors shrink-0 disabled:opacity-50"
             >
               {chip}
             </button>
           ))}
         </div>
 
-        <div className="flex items-center gap-2 bg-[#0B0F19] border border-slate-800 rounded-2xl p-1.5 focus-within:border-cyan-500/50 transition-colors">
+        <div className="flex items-center gap-2 bg-[#0B0F19] border border-slate-800 rounded-2xl p-1.5 focus-within:border-orange-500/50 transition-colors">
           <textarea
             rows={1}
             value={input}
@@ -190,7 +190,7 @@ export default function CopilotTab({ initialPrompt = '' }) {
           <button
             onClick={() => handleSend()}
             disabled={!input.trim() || isStreaming}
-            className="p-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold disabled:opacity-40 transition-all shrink-0"
+            className="p-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-black font-semibold disabled:opacity-40 transition-all shrink-0 shadow-lg shadow-orange-500/20"
           >
             <Send className="w-4 h-4" />
           </button>

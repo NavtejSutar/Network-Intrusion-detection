@@ -27,16 +27,11 @@ export default function Sidebar({ activeTab, setActiveTab, attackCount = 0, onSh
   return (
     <aside className="w-full md:w-64 bg-[#090D16] border-r border-slate-800/80 flex flex-col justify-between shrink-0 p-4">
       <div className="space-y-6">
-        <div className="flex items-center justify-between px-2 pt-1">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-              <Shield className="w-4 h-4 text-black" />
-            </div>
-            <div>
-              <span className="font-extrabold text-base tracking-wide text-white">NetGuard</span>
-              <span className="block text-[10px] font-mono text-cyan-400">NOC SYSTEM</span>
-            </div>
-          </div>
+        <div className="px-2 pt-1 flex items-center justify-between">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500 font-bold">
+            Console Navigation
+          </span>
+          <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
         </div>
 
         <div>
@@ -50,12 +45,12 @@ export default function Sidebar({ activeTab, setActiveTab, attackCount = 0, onSh
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-sm'
+                      ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30 shadow-sm shadow-orange-500/10'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-[#111726]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'text-slate-400'}`} />
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-orange-400' : 'text-slate-400'}`} />
                     <span>{item.label}</span>
                   </div>
                   {item.badge ? (
@@ -63,7 +58,7 @@ export default function Sidebar({ activeTab, setActiveTab, attackCount = 0, onSh
                       {item.badge}
                     </span>
                   ) : item.highlight ? (
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
                   ) : null}
                 </button>
               )
@@ -77,7 +72,7 @@ export default function Sidebar({ activeTab, setActiveTab, attackCount = 0, onSh
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
               Engine Status
             </span>
-            <span className="font-mono text-[10px] text-cyan-400">15F XGB</span>
+            <span className="font-mono text-[10px] text-orange-400">15F XGB</span>
           </div>
           <p className="text-[11px] text-slate-400 leading-relaxed mt-1">
             Multiclass detection online. Real-time inference active.
@@ -91,7 +86,7 @@ export default function Sidebar({ activeTab, setActiveTab, attackCount = 0, onSh
           className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-[#111726] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+            <ExternalLink className="w-3.5 h-3.5 text-orange-400" />
             <span>Landing Page</span>
           </div>
           <ChevronRight className="w-3.5 h-3.5 text-slate-500" />

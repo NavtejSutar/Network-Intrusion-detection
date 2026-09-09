@@ -61,7 +61,7 @@ export default function FlowsTab({ flows, onRefresh, onSelectFlow, initialSearch
               placeholder="Search by IP, port, protocol or threat type..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#111726] border border-slate-800 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 outline-none focus:border-cyan-500/50"
+              className="w-full bg-[#111726] border border-slate-800 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 outline-none focus:border-orange-500/50"
             />
           </div>
           {search && (
@@ -134,7 +134,7 @@ export default function FlowsTab({ flows, onRefresh, onSelectFlow, initialSearch
                       </td>
                       <td className="py-3 px-4 font-mono text-slate-200">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-cyan-400">{flow.srcIp}</span>
+                          <span className="text-orange-400">{flow.srcIp}</span>
                           <span className="text-slate-500 text-[10px]">:{flow.srcPort}</span>
                           <span className="text-slate-500">→</span>
                           <span className="text-slate-300">{flow.dstIp}</span>
@@ -172,7 +172,7 @@ export default function FlowsTab({ flows, onRefresh, onSelectFlow, initialSearch
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => onSelectFlow(flow)}
-                            className="p-1 rounded text-slate-400 hover:text-cyan-400 transition-colors"
+                            className="p-1 rounded text-slate-400 hover:text-orange-400 transition-colors"
                             title="Inspect telemetry"
                           >
                             <Eye className="w-4 h-4" />

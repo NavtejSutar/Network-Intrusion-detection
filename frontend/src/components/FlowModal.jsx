@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { X, Bot, ShieldAlert, CheckCircle, Sparkles, Loader2, ArrowRight } from 'lucide-react'
 import { analyzeFlowWithAi } from '../api'
 
-export default function FlowModal({ flow, onClose, onSwitchToCopilot }) {
+export default function FlowModal({ flow, onClose, onSwitchToCopilot, onAskCopilot }) {
   const [analysis, setAnalysis] = useState(null)
   const [loadingAi, setLoadingAi] = useState(false)
   const [errorAi, setErrorAi] = useState(null)
@@ -47,7 +47,7 @@ export default function FlowModal({ flow, onClose, onSwitchToCopilot }) {
       <div className="bg-[#0B0F19] border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
         <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-[#111726]/60">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-0.5 rounded-lg">
+            <span className="text-xs font-mono text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2.5 py-0.5 rounded-lg">
               FLOW #{flow.Id}
             </span>
             <span className={`px-2.5 py-0.5 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono border ${
@@ -105,7 +105,7 @@ export default function FlowModal({ flow, onClose, onSwitchToCopilot }) {
               {features.map((f) => (
                 <div key={f.label} className="p-2.5 rounded-xl bg-[#111726]/70 border border-slate-800/80">
                   <div className="text-[10px] text-slate-400 truncate">{f.label}</div>
-                  <div className="font-mono text-xs font-semibold text-cyan-300 mt-0.5">
+                  <div className="font-mono text-xs font-semibold text-orange-300 mt-0.5">
                     {typeof f.value === 'number' ? Number(f.value.toFixed(4)).toString() : f.value ?? 0}
                   </div>
                 </div>
@@ -113,7 +113,7 @@ export default function FlowModal({ flow, onClose, onSwitchToCopilot }) {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/30 via-[#111726] to-cyan-950/20 border border-purple-500/30">
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/30 via-[#111726] to-orange-950/20 border border-purple-500/30">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300">
@@ -165,7 +165,8 @@ export default function FlowModal({ flow, onClose, onSwitchToCopilot }) {
                   <button
                     onClick={() => {
                       onClose()
-                      if (onSwitchToCopilot) onSwitchToCopilot(`Explain flow #${flow.Id}`)
+                      const cb = onSwitchToCopilot || onAskCopilot
+                      if (cb) cb(`Explain flow #${flow.Id}`)
                     }}
                     className="flex items-center gap-1 text-xs text-purple-300 hover:text-purple-200 transition-colors font-mono"
                   >

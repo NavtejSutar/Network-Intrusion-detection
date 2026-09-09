@@ -26,13 +26,13 @@ export default function MarkdownRenderer({ content }) {
         )
       } else if (matchText.startsWith('`') && matchText.endsWith('`')) {
         parts.push(
-          <code key={key++} className="px-1.5 py-0.5 rounded bg-[#1A2338] text-cyan-300 font-mono text-[11px] border border-cyan-500/20">
+          <code key={key++} className="px-1.5 py-0.5 rounded bg-[#1A2338] text-orange-300 font-mono text-[11px] border border-orange-500/20">
             {matchText.slice(1, -1)}
           </code>
         )
       } else {
         parts.push(
-          <span key={key++} className="font-mono text-cyan-400 bg-cyan-500/10 px-1 py-0.2 rounded border border-cyan-500/20 text-[11px]">
+          <span key={key++} className="font-mono text-orange-400 bg-orange-500/10 px-1 py-0.2 rounded border border-orange-500/20 text-[11px]">
             {matchText}
           </span>
         )
@@ -104,7 +104,7 @@ export default function MarkdownRenderer({ content }) {
 
     if (line.startsWith('### ')) {
       elements.push(
-        <h4 key={i} className="text-xs font-bold uppercase tracking-wider text-cyan-400 mt-3 mb-1">
+        <h4 key={i} className="text-xs font-bold uppercase tracking-wider text-orange-400 mt-3 mb-1">
           {parseInline(line.replace('### ', ''))}
         </h4>
       )
@@ -116,14 +116,14 @@ export default function MarkdownRenderer({ content }) {
       )
     } else if (line.startsWith('# ')) {
       elements.push(
-        <h2 key={i} className="text-base font-bold text-cyan-300 mt-4 mb-2">
+        <h2 key={i} className="text-base font-bold text-orange-300 mt-4 mb-2">
           {parseInline(line.replace('# ', ''))}
         </h2>
       )
     } else if (line.startsWith('- ') || line.startsWith('* ')) {
       elements.push(
         <div key={i} className="flex items-start gap-2 my-1 text-slate-300 text-xs pl-1">
-          <span className="text-cyan-400 mt-1 text-[8px]">•</span>
+          <span className="text-orange-400 mt-1 text-[8px]">•</span>
           <span className="leading-relaxed">{parseInline(line.slice(2))}</span>
         </div>
       )
@@ -131,7 +131,7 @@ export default function MarkdownRenderer({ content }) {
       const match = line.match(/^(\d+)\.\s(.*)/)
       elements.push(
         <div key={i} className="flex items-start gap-2 my-1 text-slate-300 text-xs pl-1">
-          <span className="font-mono text-cyan-400 text-xs">{match[1]}.</span>
+          <span className="font-mono text-orange-400 text-xs">{match[1]}.</span>
           <span className="leading-relaxed">{parseInline(match[2])}</span>
         </div>
       )

@@ -76,7 +76,7 @@ export default function UploadTab({ onFlowsUploaded, onSelectFlow }) {
           onClick={() => inputRef.current?.click()}
           className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
             dragActive
-              ? 'border-cyan-400 bg-cyan-500/10'
+              ? 'border-orange-400 bg-orange-500/10'
               : 'border-slate-800 bg-[#111726]/40 hover:border-slate-700 hover:bg-[#111726]/80'
           }`}
         >
@@ -88,7 +88,7 @@ export default function UploadTab({ onFlowsUploaded, onSelectFlow }) {
             className="hidden"
           />
 
-          <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-3 shadow-inner">
+          <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-3 shadow-inner">
             <UploadCloud className="w-7 h-7" />
           </div>
 
@@ -99,7 +99,7 @@ export default function UploadTab({ onFlowsUploaded, onSelectFlow }) {
             Accepts standard CIC-IDS flow exports, Wireshark/Scapy parsed CSVs with flow statistics
           </p>
           {file && (
-            <span className="mt-2 text-[11px] font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-full border border-cyan-500/20">
+            <span className="mt-2 text-[11px] font-mono text-orange-400 bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-500/20">
               {(file.size / 1024).toFixed(1)} KB
             </span>
           )}
@@ -129,7 +129,7 @@ export default function UploadTab({ onFlowsUploaded, onSelectFlow }) {
           <button
             onClick={handleUpload}
             disabled={!file || uploading}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-black text-xs font-bold transition-all shadow-lg shadow-orange-500/20 disabled:opacity-50"
           >
             {uploading ? (
               <>
@@ -210,7 +210,7 @@ export default function UploadTab({ onFlowsUploaded, onSelectFlow }) {
                         <td className="py-2.5 px-3 text-right">
                           <button
                             onClick={() => onSelectFlow(f)}
-                            className="inline-flex items-center gap-1 text-[11px] text-cyan-400 hover:text-cyan-300 font-medium"
+                            className="inline-flex items-center gap-1 text-[11px] text-orange-400 hover:text-orange-300 font-medium"
                           >
                             <span>Inspect</span>
                             <ArrowRight className="w-3 h-3" />

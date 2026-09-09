@@ -10,7 +10,7 @@ import LandingPage from './components/LandingPage'
 import { fetchSummary, fetchLatestFlows } from './api'
 
 export default function App() {
-  const [viewMode, setViewMode] = useState('console')
+  const [viewMode, setViewMode] = useState('landing')
   const [activeTab, setActiveTab] = useState('overview')
   const [summary, setSummary] = useState(null)
   const [flows, setFlows] = useState([])

@@ -68,7 +68,7 @@ export default function OverviewTab({ summary, onSelectFilter }) {
         </div>
 
         <div className="flex items-center gap-2 bg-[#0E1526] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-400 font-mono">
-          <Clock className="w-3.5 h-3.5 text-cyan-400" />
+          <Clock className="w-3.5 h-3.5 text-orange-400" />
           <span>Last 60 Minutes Window</span>
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function OverviewTab({ summary, onSelectFilter }) {
               Live TShark & Batch
             </span>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+          <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
             <Cpu className="w-6 h-6" />
           </div>
         </div>
@@ -160,7 +160,7 @@ export default function OverviewTab({ summary, onSelectFilter }) {
                 <h3 className="text-sm font-bold text-white">Flow Ratio Distribution</h3>
                 <p className="text-xs text-slate-400">Real-time proportion of benign vs intrusive network traffic</p>
               </div>
-              <span className="text-xs font-mono text-cyan-400">{totalFlows} flows recorded</span>
+              <span className="text-xs font-mono text-orange-400">{totalFlows} flows recorded</span>
             </div>
 
             <div className="mt-6 space-y-3">
@@ -207,7 +207,7 @@ export default function OverviewTab({ summary, onSelectFilter }) {
 
           <div className="p-4 rounded-xl bg-[#0E1526] border border-slate-800/80 text-xs space-y-2">
             <span className="text-slate-300 font-semibold flex items-center gap-2">
-              <Activity className="w-4 h-4 text-cyan-400" />
+              <Activity className="w-4 h-4 text-orange-400" />
               Ingestion Status & Operational Window
             </span>
             <p className="text-slate-400 leading-relaxed text-[11px]">
